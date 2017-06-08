@@ -10,6 +10,7 @@
 </head>
 <body>
     <form method ="POST" action="Registro_Curriculum.php"><br  />
+        <h3> Informacion General </h3>
         <table> 
             <tr>
                 <td> Cedula: </td>
@@ -27,12 +28,12 @@
            </tr>
                 
            <tr>
-                <td> Direccion: </td>
+                <td> Dirección: </td>
                 <td> <input type ="text" name ="direccion"><br  /> </td>
            </tr>
 
            <tr>
-                <td> Telefono: </td>
+                <td> Teléfono: </td>
                 <td> <input type ="text" name ="telefono"><br  /> </td>
            </tr>
 
@@ -62,15 +63,62 @@
             </tr>
         
         </table>
-        <br />
-        <input type="submit" name="enviar" value="enviar"><br   />
+        <input type="submit" name="enviar_inf_gen" value="enviar"><br   /><br />
 
-        <table>
+        <h3> Informacion Académica </h3>
+
+        <table> 
+
+            <tr>
+                <td> Institución Académica: </td>
+                <td> <input type="text" name = "inst_acad" > </td>
+            </tr>
+
+            <tr>
+                <td> Titulo: </td>
+                <td> <input type="text" name = "titulo" > </td>
+            </tr>
+
+            <tr>
+                <td> Año: </td>
+                <td> <input type="text" name = "anno" > </td>
+            </tr>
+
+        </table>
+        <input type="submit" name="insertar_inf_acad" value="enviar"><br   /><br />
+
+        <h3> Información Laboral </h3>
+        <table> 
+
+            <tr>
+                <td> Institución que Laboro: </td>
+                <td> <input type="text" name = "inst_lab" > </td>
+            </tr>
+
+            <tr>
+                <td> Puesto: </td>
+                <td> <input type="text" name = "titulo" > </td>
+            </tr>
+
+            <tr>
+                <td> Año de Ingreso: </td>
+                <td> <input type="text" name = "anno_ing" > </td>
+            </tr>
+
+            <tr>
+                <td> Año de Salida: </td>
+                <td> <input type="text" name = "anno_sal" > </td>
+            </tr>
+
+        </table>
+
+        <input type="submit" name="insertar_inf_lab" value="enviar"><br   /><br />
+
 </form>
 <br /><br /><br />
 
 <?php
-    if(isset($_POST['enviar']))
+    if(isset($_POST['enviar_inf_gen']))
     {
         $cedula=$_POST['cedula'];
         $nombre=$_POST['nombre'];
