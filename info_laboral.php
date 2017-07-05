@@ -1,5 +1,9 @@
 <?php
     include("conexion_sql.php");
+
+    session_start();
+
+    $ced = $_SESSION["cedula"];
 ?>
 
 <meta charset="UTF-8">
@@ -42,54 +46,49 @@
 
 </form>
 
- <table>    
-     <tr>   
-        <td> Institucion Academica </td>
-        <td> Curso </td>
-        <td> Año </td>
-     </tr>
+ <table> 
+            <tr align="center">
+                <td> ID </td>
+                <td> Institución Academica </td>
+                <td> Titulo </td>
+                <td> Año </td>
+                <td> Acción </td>
+                <td> Acción </td>
+            </tr>
 
-     <?php
-        $select_info_laboral = "SELECT institucion_laboro, puesto, ano_ingreso, ano_salio FROM informacion_laboral where cedula_usuario =  $cedula;";
+            <?php
+                $query = "  SELECT id_informacion_academica, Institucion_Academica, curso, Anno FROM informacion_academica where cedula_usuario = $ced;";
 
-        $comm4 = sqlsrv_query($con, $select_info_laboral);
+                $command = sqlsrv_query($con, $query);
 
-        while($fila = sqlsvr_fetch_array($ejecutar))
-        {
-            $inst_lab1 = $fila['Institucion_Academica'];
-            $curso1 = $fila["curso"];
-            $anno1 = $fila['Anno'];
-        }
-     ?>
-     <tr>   
-         <td> <?php echo $inst_lab1 ?> </td>
-         <td> <?php echo $curso1 ?> </td>
-         <td> <?php echo $anno1 ?> </td>
-     </tr>
- </table>
+                $i=0;
+
+                while($fila = sqlsrv_fetch_array($command))
+                {
+                    $id_inf_acad = $fila["id_informacion_academica"];
+                    $inst_acad1 = $fila["Institucion_Academica"];
+                    $an = $fila["Anno"];
+                    $cur = $fila["curso"];
+                    $i++;
+            ?>
+
+            <tr align="center">
+                <td> <?php echo $id_inf_acad ?> </td>
+                <td> <?php echo $inst_acad1 ?> </td>
+                <td> <?php echo $cur ?> </td>
+                <td> <?php echo $an ?> </td>
+                <td> <a href = "info_academica.php?edit=<?php echo $id_inf_acad ?>"> Editar </td>
+                <td> <a href = "info_academica.php?borrar=<?php echo $id_inf_acad ?>"> Borrar </td>
+            </tr>
+
+            <?php
+                }
+            ?>
+
+        </table>
 
 <?php
-    if(isset($_POST['enviar_inf_lab']))
-    {
-        $inst_lab=$_POST['inst_lab'];
-        $puesto=$_POST['puesto'];
-        $anno_ing=$_POST['anno_ing'];
-        $anno_sal=$_POST['anno_sal'];
-
-        $insertar3 = "INSERT INTO informacion_laboral (cedula_usuario,institucion_laboro,puesto,ano_ingreso,ano_salio) values ($cedula1, '$inst_lab', '$puesto', $anno_ing, $anno_sal);";
- 
-        $comm3 = sqlsrv_query($con, $insertar3);
-
-        if($comm3)
-        {
-            echo "<h3> Datos Insertados </h3>";
-        }
-        else
-        {
-            echo "<h3> Error al Insertar </h3>";
-        }
-    }
+    echo $ced;
 ?>
-
 </body>
 </html>

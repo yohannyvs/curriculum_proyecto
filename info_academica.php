@@ -1,5 +1,9 @@
 <?php
     include("conexion_sql.php");
+
+    session_start();
+
+    $ced = $_SESSION["cedula"];
 ?>
 
 <meta charset="UTF-8">
@@ -34,11 +38,57 @@
         <input type="submit" name="enviar_inf_acad" value="enviar"><br   /><br />
         <input type="submit" name="siguiente" value="enviar"><br   /><br />
 
+        <table> 
+            <tr align="center">
+                <td> ID </td>
+                <td> Institución Academica </td>
+                <td> Titulo </td>
+                <td> Año </td>
+                <td> Acción </td>
+                <td> Acción </td>
+            </tr>
+
+            <?php
+                $query = "  SELECT id_informacion_academica, Institucion_Academica, curso, Anno FROM informacion_academica where cedula_usuario = $ced;";
+
+                $command = sqlsrv_query($con, $query);
+
+                $i=0;
+
+                while($fila = sqlsrv_fetch_array($command))
+                {
+                    $id_inf_acad = $fila["id_informacion_academica"];
+                    $inst_acad1 = $fila["Institucion_Academica"];
+                    $an = $fila["Anno"];
+                    $cur = $fila["curso"];
+                    $i++;
+            ?>
+
+            <tr align="center">
+                <td> <?php echo $id_inf_acad ?> </td>
+                <td> <?php echo $inst_acad1 ?> </td>
+                <td> <?php echo $cur ?> </td>
+                <td> <?php echo $an ?> </td>
+                <td> <a href = "info_academica.php?editar=<?php echo $id_inf_acad ?>"> Editar </td>
+                <td> <a href = "info_academica.php?borrar=<?php echo $id_inf_acad ?>"> Borrar </td>
+            </tr>
+
+            <?php
+                }
+            ?>
+
+        </table>
+
 <?php
-    session_start();
+    if(isset($_GET['editar']))
+    {
+        include("editar_inf_acad.php");
+        $_SESSION['id_edit'] = $_GET['editar'];
+    }
+?>
 
-    $ced = $_SESSION["cedula"];
 
+<?php
     echo $ced;
 
     if(isset($_POST['enviar_inf_acad']))
@@ -54,6 +104,7 @@
         if($comm2)
         {
             echo "<h3> Datos Insertados </h3>";
+            header ("Location: info_academica.php");
         }
         else
         {
@@ -63,12 +114,10 @@
 
     if(isset($_POST['siguiente']))
     {
-        include("info_laboral.php");
-        ?>
-            <a href="info_laboral.php" > </a>
-        <?php
+        header ("Location: info_laboral.php");
     }
 ?>
+
 
 </body>
 </html>
